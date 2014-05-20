@@ -48,30 +48,74 @@
 <hr><h3>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h3>
 
-<p>Mapping properties:</p>
+<h4>
+<a name="mapping-properties-using-entitymaptentity" class="anchor" href="#mapping-properties-using-entitymaptentity"><span class="octicon octicon-link"></span></a>Mapping properties using <code>EntityMap&lt;TEntity&gt;</code>
+</h4>
 
-<pre><code>public class ProductMap : EntityMap&lt;Product&gt;
-{
-    public ProductMap()
-    {
-        Map(p =&gt; p.Name)
-            .ToColumn("strName");
+<div class="highlight highlight-csharp"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">ProductMap</span> <span class="p">:</span> <span class="n">EntityMap</span><span class="p">&lt;</span><span class="n">Product</span><span class="p">&gt;</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nf">ProductMap</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">Map</span><span class="p">(</span><span class="n">p</span> <span class="p">=&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">ToColumn</span><span class="p">(</span><span class="s">"strName"</span><span class="p">);</span>
 
-        Map(p =&gt; p.LastModified)
-            .Ignore();
-    }
-}
-</code></pre>
+        <span class="n">Map</span><span class="p">(</span><span class="n">p</span> <span class="p">=&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">LastModified</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">Ignore</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
 
-<p>Initializing Dapper.FluentMap:</p>
+<p>Initialization: </p>
 
-<pre><code>FluentMapper.Intialize(config =&gt;
-                       {
-                           config.AddEntityMap(new ProductMap());
-                       });
-</code></pre>
+<div class="highlight highlight-csharp"><pre><span class="n">FluentMapper</span><span class="p">.</span><span class="n">Intialize</span><span class="p">(</span><span class="n">config</span> <span class="p">=&gt;</span>
+                       <span class="p">{</span>
+                           <span class="n">config</span><span class="p">.</span><span class="n">AddMap</span><span class="p">(</span><span class="k">new</span> <span class="n">ProductMap</span><span class="p">());</span>
+                       <span class="p">});</span>
+</pre></div>
 
-<p>That's it. When querying the database using Dapper, the product name from column <code>strName</code> will be mapped to the <code>Name</code> property of the <code>Product</code> entity. <code>LastModifed</code> won't be mapped since we marked it as 'ignored'.</p>
+<h4>
+<a name="mapping-properties-using-conventions" class="anchor" href="#mapping-properties-using-conventions"><span class="octicon octicon-link"></span></a>Mapping properties using conventions</h4>
+
+<p>You can create a convention by creating a class which derives from the <code>Convention</code> class. In the contructor you can configure the property conventions:</p>
+
+<div class="highlight highlight-csharp"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">TypePrefixConvention</span> <span class="p">:</span> <span class="n">Convention</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nf">TypePrefixConvention</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// Map all properties of type int and with the name 'id' to column 'autID'.</span>
+        <span class="n">Properties</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span>
+            <span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">c</span> <span class="p">=&gt;</span> <span class="n">c</span><span class="p">.</span><span class="n">Name</span><span class="p">.</span><span class="n">ToLower</span><span class="p">()</span> <span class="p">==</span> <span class="s">"id"</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">Configure</span><span class="p">(</span><span class="n">c</span> <span class="p">=&gt;</span> <span class="n">c</span><span class="p">.</span><span class="n">HasColumnName</span><span class="p">(</span><span class="s">"autID"</span><span class="p">));</span>
+
+        <span class="c1">// Prefix all properties of type string with 'str' when mapping to column names.</span>
+        <span class="n">Properties</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;()</span>
+            <span class="p">.</span><span class="n">Configure</span><span class="p">(</span><span class="n">c</span> <span class="p">=&gt;</span> <span class="n">c</span><span class="p">.</span><span class="n">HasPrefix</span><span class="p">(</span><span class="s">"str"</span><span class="p">));</span>
+
+        <span class="c1">// Prefix all properties of type int with 'int' when mapping to column names.</span>
+        <span class="n">Properties</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span>
+            <span class="p">.</span><span class="n">Configure</span><span class="p">(</span><span class="n">c</span> <span class="p">=&gt;</span> <span class="n">c</span><span class="p">.</span><span class="n">HasPrefix</span><span class="p">(</span><span class="s">"int"</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>When initializing Dapper.FluentMap with conventions, the entities on which a convention applies must be configured. You can choose to either configure the entities explicitly or scan a specified, or the current assembly.</p>
+
+<div class="highlight highlight-csharp"><pre><span class="n">FluentMapper</span><span class="p">.</span><span class="n">Intialize</span><span class="p">(</span><span class="n">config</span> <span class="p">=&gt;</span>
+    <span class="p">{</span>
+        <span class="c1">// Configure entities explicitly.</span>
+        <span class="n">config</span><span class="p">.</span><span class="n">AddConvention</span><span class="p">(</span><span class="k">new</span> <span class="n">TypePrefixConvention</span><span class="p">())</span>
+                <span class="p">.</span><span class="n">ForEntity</span><span class="p">&lt;</span><span class="n">Product</span><span class="p">&gt;()</span>
+                <span class="p">.</span><span class="n">ForEntity</span><span class="p">&lt;</span><span class="n">Order</span><span class="p">&gt;;</span>
+
+        <span class="c1">// Configure all entities in a certain assembly with an optional namespaces filter.</span>
+        <span class="n">config</span><span class="p">.</span><span class="n">AddConvention</span><span class="p">(</span><span class="k">new</span> <span class="n">TypePrefixConvention</span><span class="p">())</span>
+                <span class="p">.</span><span class="n">ForEntitiesInAssembly</span><span class="p">(</span><span class="k">typeof</span> <span class="p">(</span><span class="n">Product</span><span class="p">).</span><span class="n">Assembly</span><span class="p">,</span> <span class="s">"App.Domain.Model"</span><span class="p">);</span>
+
+        <span class="c1">// Configure all entities in the current assembly with an optional namespaces filter.</span>
+        <span class="n">config</span><span class="p">.</span><span class="n">AddConvention</span><span class="p">(</span><span class="k">new</span> <span class="n">TypePrefixConvention</span><span class="p">())</span>
+                <span class="p">.</span><span class="n">ForEntitiesInCurrentAssembly</span><span class="p">(</span><span class="s">"App.Domain.Model.Catalog"</span><span class="p">,</span> <span class="s">"App.Domain.Model.Order"</span><span class="p">);</span>
+    <span class="p">});</span>
+</pre></div>
       </section>
     </div>
 
