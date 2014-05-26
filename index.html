@@ -103,16 +103,16 @@
 <div class="highlight highlight-csharp"><pre><span class="n">FluentMapper</span><span class="p">.</span><span class="n">Intialize</span><span class="p">(</span><span class="n">config</span> <span class="p">=&gt;</span>
     <span class="p">{</span>
         <span class="c1">// Configure entities explicitly.</span>
-        <span class="n">config</span><span class="p">.</span><span class="n">AddConvention</span><span class="p">(</span><span class="k">new</span> <span class="n">TypePrefixConvention</span><span class="p">())</span>
+        <span class="n">config</span><span class="p">.</span><span class="n">AddConvention</span><span class="p">&lt;</span><span class="n">TypePrefixConvention</span><span class="p">&gt;()</span>
                 <span class="p">.</span><span class="n">ForEntity</span><span class="p">&lt;</span><span class="n">Product</span><span class="p">&gt;()</span>
                 <span class="p">.</span><span class="n">ForEntity</span><span class="p">&lt;</span><span class="n">Order</span><span class="p">&gt;;</span>
 
         <span class="c1">// Configure all entities in a certain assembly with an optional namespaces filter.</span>
-        <span class="n">config</span><span class="p">.</span><span class="n">AddConvention</span><span class="p">(</span><span class="k">new</span> <span class="n">TypePrefixConvention</span><span class="p">())</span>
+        <span class="n">config</span><span class="p">.</span><span class="n">AddConvention</span><span class="p">&lt;</span><span class="n">TypePrefixConvention</span><span class="p">&gt;()</span>
                 <span class="p">.</span><span class="n">ForEntitiesInAssembly</span><span class="p">(</span><span class="k">typeof</span> <span class="p">(</span><span class="n">Product</span><span class="p">).</span><span class="n">Assembly</span><span class="p">,</span> <span class="s">"App.Domain.Model"</span><span class="p">);</span>
 
         <span class="c1">// Configure all entities in the current assembly with an optional namespaces filter.</span>
-        <span class="n">config</span><span class="p">.</span><span class="n">AddConvention</span><span class="p">(</span><span class="k">new</span> <span class="n">TypePrefixConvention</span><span class="p">())</span>
+        <span class="n">config</span><span class="p">.</span><span class="n">AddConvention</span><span class="p">&lt;</span><span class="n">TypePrefixConvention</span><span class="p">&gt;()</span>
                 <span class="p">.</span><span class="n">ForEntitiesInCurrentAssembly</span><span class="p">(</span><span class="s">"App.Domain.Model.Catalog"</span><span class="p">,</span> <span class="s">"App.Domain.Model.Order"</span><span class="p">);</span>
     <span class="p">});</span>
 </pre></div>
