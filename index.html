@@ -35,10 +35,12 @@
 <a name="dapperfluentmap" class="anchor" href="#dapperfluentmap"><span class="octicon octicon-link"></span></a><a href="http://henkmollema.github.io/Dapper-FluentMap">Dapper.FluentMap</a>
 </h1>
 
+<p><a href="https://ci.appveyor.com/project/HenkMollema/dapper-fluentmap"><img src="https://ci.appveyor.com/api/projects/status/x6grw3cjuyud9c76" alt="Build status"></a></p>
+
 <h3>
 <a name="introduction" class="anchor" href="#introduction"><span class="octicon octicon-link"></span></a>Introduction</h3>
 
-<p>This <a href="https://github.com/SamSaffron/dapper-dot-net/">Dapper</a> extension allows you to fluently congfigure the mapping between POCO properties and database columns. This keeps your POCO's clean of mapping attributes. The functionality is similar to <a href="http://msdn.microsoft.com/nl-nl/data/jj591617.aspx">Entity Framework Fluent API</a>.</p>
+<p>This <a href="https://github.com/SamSaffron/dapper-dot-net/">Dapper</a> extension allows you to fluently congfigure the mapping between POCO properties and database columns. This keeps your POCO's clean of mapping attributes. The functionality is similar to <a href="http://msdn.microsoft.com/nl-nl/data/jj591617.aspx">Entity Framework Fluent API</a>. If you have any questions, suggestions or bugs, please don't hesitate to <a href="mailto:henkmollema@gmail.com">contact me</a> or create an issue.</p>
 
 <hr><h3>
 <a name="download" class="anchor" href="#download"><span class="octicon octicon-link"></span></a>Download</h3>
@@ -49,8 +51,9 @@
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h3>
 
 <h4>
-<a name="mapping-properties-using-entitymaptentity" class="anchor" href="#mapping-properties-using-entitymaptentity"><span class="octicon octicon-link"></span></a>Mapping properties using <code>EntityMap&lt;TEntity&gt;</code>
-</h4>
+<a name="manually-mapping-properties" class="anchor" href="#manually-mapping-properties"><span class="octicon octicon-link"></span></a>Manually mapping properties</h4>
+
+<p>You can map property names manually using the <a href="https://github.com/HenkMollema/Dapper-FluentMap/blob/master/src/Dapper.FluentMap/Mapping/EntityMap.cs"><code>EntityMap&lt;TEntity&gt;</code></a> class. When creating a derived class, the constructor gives you access to the <code>Map</code> method, allowing you to specify to which database column name a certain property of <code>TEntity</code> should map to.</p>
 
 <div class="highlight highlight-csharp"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">ProductMap</span> <span class="p">:</span> <span class="n">EntityMap</span><span class="p">&lt;</span><span class="n">Product</span><span class="p">&gt;</span>
 <span class="p">{</span>
@@ -76,7 +79,9 @@
 <h4>
 <a name="mapping-properties-using-conventions" class="anchor" href="#mapping-properties-using-conventions"><span class="octicon octicon-link"></span></a>Mapping properties using conventions</h4>
 
-<p>You can create a convention by creating a class which derives from the <code>Convention</code> class. In the contructor you can configure the property conventions:</p>
+<p>When you have a lot of entity types, creating manual mapping classes can become plumbing. If your column names adhere to some kind of naming convention, you might be better off by configuring a mapping convention.</p>
+
+<p>You can create a convention by creating a class which derives from the <a href="https://github.com/HenkMollema/Dapper-FluentMap/blob/master/src/Dapper.FluentMap/Conventions/Convention.cs"><code>Convention</code></a> class. In the contructor you can configure the property conventions:</p>
 
 <div class="highlight highlight-csharp"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">TypePrefixConvention</span> <span class="p">:</span> <span class="n">Convention</span>
 <span class="p">{</span>
@@ -98,7 +103,7 @@
 <span class="p">}</span>
 </pre></div>
 
-<p>When initializing Dapper.FluentMap with conventions, the entities on which a convention applies must be configured. You can choose to either configure the entities explicitly or scan a specified, or the current assembly.</p>
+<p>When initializing Dapper.FluentMap with conventions, the entities on which a convention applies must be configured. You can choose to either configure the entities explicitly or use assembly scanning.</p>
 
 <div class="highlight highlight-csharp"><pre><span class="n">FluentMapper</span><span class="p">.</span><span class="n">Intialize</span><span class="p">(</span><span class="n">config</span> <span class="p">=&gt;</span>
     <span class="p">{</span>
@@ -116,6 +121,23 @@
               <span class="p">.</span><span class="n">ForEntitiesInCurrentAssembly</span><span class="p">(</span><span class="s">"App.Domain.Model.Catalog"</span><span class="p">,</span> <span class="s">"App.Domain.Model.Order"</span><span class="p">);</span>
     <span class="p">});</span>
 </pre></div>
+
+<h5>
+<a name="transformations" class="anchor" href="#transformations"><span class="octicon octicon-link"></span></a>Transformations</h5>
+
+<p>The convention API allows you to configure transformation of property names to database column names. An implementation would look like this:</p>
+
+<div class="highlight highlight-csharp"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">PropertyTransformConvention</span> <span class="p">:</span> <span class="n">Convention</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nf">PropertyTransformConvention</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">Properties</span><span class="p">()</span>
+            <span class="p">.</span><span class="n">Configure</span><span class="p">(</span><span class="n">c</span> <span class="p">=&gt;</span> <span class="n">c</span><span class="p">.</span><span class="n">Transform</span><span class="p">(</span><span class="n">s</span> <span class="p">=&gt;</span> <span class="n">Regex</span><span class="p">.</span><span class="n">Replace</span><span class="p">(</span><span class="n">input</span><span class="p">:</span> <span class="n">s</span><span class="p">,</span> <span class="n">pattern</span><span class="p">:</span> <span class="s">"([A-Z])([A-Z][a-z])|([a-z0-9])([A-Z])"</span><span class="p">,</span> <span class="n">replacement</span><span class="p">:</span> <span class="s">"$1$3_$2$4"</span><span class="p">)));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>This configuration will map camel case property names to underscore seperated database column names (<code>UrlOptimizedName</code> -&gt; <code>Url_Optimized_Name</code>).</p>
       </section>
     </div>
 
