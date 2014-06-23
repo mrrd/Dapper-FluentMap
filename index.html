@@ -59,16 +59,20 @@
 <span class="p">{</span>
     <span class="k">public</span> <span class="nf">ProductMap</span><span class="p">()</span>
     <span class="p">{</span>
+        <span class="c1">// Map property 'Name' to column 'strName'.</span>
         <span class="n">Map</span><span class="p">(</span><span class="n">p</span> <span class="p">=&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span>
             <span class="p">.</span><span class="n">ToColumn</span><span class="p">(</span><span class="s">"strName"</span><span class="p">);</span>
 
+        <span class="c1">// Ignore the 'LastModified' property when mapping.</span>
         <span class="n">Map</span><span class="p">(</span><span class="n">p</span> <span class="p">=&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">LastModified</span><span class="p">)</span>
             <span class="p">.</span><span class="n">Ignore</span><span class="p">();</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 
-<p>Initialization: </p>
+<p>Column names are mapped case sensitive by default. You can change this by specifying the <code>caseSensitive</code> parameter in the <code>ToColumn()</code> method: <code>Map(p =&gt; p.Name).ToColumn("strName", caseSensitive: false)</code>.</p>
+
+<p><strong>Initialization:</strong></p>
 
 <div class="highlight highlight-csharp"><pre><span class="n">FluentMapper</span><span class="p">.</span><span class="n">Intialize</span><span class="p">(</span><span class="n">config</span> <span class="p">=&gt;</span>
                        <span class="p">{</span>
