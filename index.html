@@ -1,41 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Dapper.FluentMap : Provides a simple API to map POCO properties to database columns when using Dapper." />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Dapper.FluentMap by HenkMollema</title>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Dapper.FluentMap</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
-
   <body>
+    <div class="wrapper">
+      <header>
+        <h1>Dapper.FluentMap</h1>
+        <p>Provides a simple API to map POCO properties to database columns when using Dapper.</p>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/HenkMollema/Dapper-FluentMap">View on GitHub</a>
+        <p class="view"><a href="https://github.com/HenkMollema/Dapper-FluentMap">View the Project on GitHub <small>HenkMollema/Dapper-FluentMap</small></a></p>
 
-          <h1 id="project_title">Dapper.FluentMap</h1>
-          <h2 id="project_tagline">Provides a simple API to map POCO properties to database columns when using Dapper.</h2>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/HenkMollema/Dapper-FluentMap/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/HenkMollema/Dapper-FluentMap/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
+        <ul>
+          <li><a href="https://github.com/HenkMollema/Dapper-FluentMap/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/HenkMollema/Dapper-FluentMap/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/HenkMollema/Dapper-FluentMap">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
         <h1>
 <a name="dapperfluentmap" class="anchor" href="#dapperfluentmap"><span class="octicon octicon-link"></span></a><a href="http://henkmollema.github.io/Dapper-FluentMap">Dapper.FluentMap</a>
 </h1>
 
-<p><a href="https://ci.appveyor.com/project/HenkMollema/dapper-fluentmap"><img src="https://ci.appveyor.com/api/projects/status/x6grw3cjuyud9c76" alt="Build status"></a></p>
+<p><a href="https://ci.appveyor.com/project/henkmollema/dapper-fluentmap"><img src="http://img.shields.io/appveyor/ci/henkmollema/dapper-fluentmap.svg?style=flat" alt="Build status" title="AppVeyor build status"></a>   <a href="https://www.nuget.org/packages/Dapper.FluentMap/" title="NuGet version"><img src="http://img.shields.io/nuget/v/Dapper.FluentMap.svg?style=flat" alt="NuGet Version"></a>   <a href="https://www.nuget.org/packages/Dapper.FluentMap/"><img src="http://img.shields.io/nuget/dt/Dapper.FluentMap.svg?style=flat" alt="NuGet Downloads"></a></p>
 
 <h3>
 <a name="introduction" class="anchor" href="#introduction"><span class="octicon octicon-link"></span></a>Introduction</h3>
@@ -51,7 +48,7 @@
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h3>
 
 <h4>
-<a name="manually-mapping-properties" class="anchor" href="#manually-mapping-properties"><span class="octicon octicon-link"></span></a>Manually mapping properties</h4>
+<a name="manual-mapping" class="anchor" href="#manual-mapping"><span class="octicon octicon-link"></span></a>Manual mapping</h4>
 
 <p>You can map property names manually using the <a href="https://github.com/HenkMollema/Dapper-FluentMap/blob/master/src/Dapper.FluentMap/Mapping/EntityMap.cs"><code>EntityMap&lt;TEntity&gt;</code></a> class. When creating a derived class, the constructor gives you access to the <code>Map</code> method, allowing you to specify to which database column name a certain property of <code>TEntity</code> should map to.</p>
 
@@ -81,7 +78,7 @@
 </pre></div>
 
 <h4>
-<a name="mapping-properties-using-conventions" class="anchor" href="#mapping-properties-using-conventions"><span class="octicon octicon-link"></span></a>Mapping properties using conventions</h4>
+<a name="convention-based-mapping" class="anchor" href="#convention-based-mapping"><span class="octicon octicon-link"></span></a>Convention based mapping</h4>
 
 <p>When you have a lot of entity types, creating manual mapping classes can become plumbing. If your column names adhere to some kind of naming convention, you might be better off by configuring a mapping convention.</p>
 
@@ -143,16 +140,12 @@
 
 <p>This configuration will map camel case property names to underscore seperated database column names (<code>UrlOptimizedName</code> -&gt; <code>Url_Optimized_Name</code>).</p>
       </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Dapper.FluentMap maintained by <a href="https://github.com/HenkMollema">HenkMollema</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/HenkMollema">HenkMollema</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
     </div>
-
+    <script src="javascripts/scale.fix.js"></script>
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -163,7 +156,6 @@
             pageTracker._trackPageview();
             } catch(err) {}
           </script>
-
 
   </body>
 </html>
