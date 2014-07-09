@@ -16,14 +16,14 @@
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
         <header class="inner">
-          <a id="forkme_banner" href="https://github.com/HenkMollema/Dapper-FluentMap">View on GitHub</a>
+          <a id="forkme_banner" href="https://github.com/henkmollema/Dapper-FluentMap">View on GitHub</a>
 
           <h1 id="project_title">Dapper.FluentMap</h1>
           <h2 id="project_tagline">Provides a simple API to map POCO properties to database columns when using Dapper.</h2>
 
             <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/HenkMollema/Dapper-FluentMap/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/HenkMollema/Dapper-FluentMap/tarball/master">Download this project as a tar.gz file</a>
+              <a class="zip_download_link" href="https://github.com/henkmollema/Dapper-FluentMap/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/henkmollema/Dapper-FluentMap/tarball/master">Download this project as a tar.gz file</a>
             </section>
         </header>
     </div>
@@ -142,13 +142,67 @@
 </pre></div>
 
 <p>This configuration will map camel case property names to underscore seperated database column names (<code>UrlOptimizedName</code> -&gt; <code>Url_Optimized_Name</code>).</p>
+
+<hr><h3>
+<a name="dommel" class="anchor" href="#dommel"><span class="octicon octicon-link"></span></a><a href="https://github.com/HenkMollema/Dommel">Dommel</a>
+</h3>
+
+<p>Dommel contains a set of extensions methods providing easy CRUD operations using Dapper. One of the goals was to provide extension points for resolving table and column names. <a href="https://github.com/HenkMollema/Dapper-FluentMap/tree/master/src/Dapper.FluentMap.Dommel">Dapper.FluentMap.Dommel</a> implements certain interfaces of Dommel and uses the configured mapping. It also provides more mapping functionality.</p>
+
+<h4>
+<a name="-download-dapperfluentmapdommel-nuget-package" class="anchor" href="#-download-dapperfluentmapdommel-nuget-package"><span class="octicon octicon-link"></span></a><a href="https://www.nuget.org/packages/Dapper.FluentMap.Dommel">&gt; Download Dapper.FluentMap.Dommel NuGet package</a>
+</h4>
+
+<h4>
+<a name="usage-1" class="anchor" href="#usage-1"><span class="octicon octicon-link"></span></a>Usage</h4>
+
+<h5>
+<a name="dommelentitymaptentity" class="anchor" href="#dommelentitymaptentity"><span class="octicon octicon-link"></span></a><code>DommelEntityMap&lt;TEntity&gt;</code>
+</h5>
+
+<p>This class derives from <code>EntityMap&lt;TEntity&gt;</code> and allows you to map an entity to a database table using the <code>ToTable()</code> method:</p>
+
+<div class="highlight highlight-csharp"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">ProductMap</span> <span class="p">:</span> <span class="n">DommelEntityMap</span><span class="p">&lt;</span><span class="n">TEntity</span><span class="p">&gt;</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nf">ProductMap</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">ToTable</span><span class="p">(</span><span class="s">"tblProduct"</span><span class="p">);</span>      
+
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h5>
+<a name="dommelpropertymaptentity" class="anchor" href="#dommelpropertymaptentity"><span class="octicon octicon-link"></span></a><code>DommelPropertyMap&lt;TEntity&gt;</code>
+</h5>
+
+<p>This class derives <code>PropertyMap&lt;TEntity&gt;</code> and allows you to specify the key property of an entity using the <code>IsKey</code> method:</p>
+
+<div class="highlight highlight-csharp"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">ProductMap</span> <span class="p">:</span> <span class="n">DommelEntityMap</span><span class="p">&lt;</span><span class="n">TEntity</span><span class="p">&gt;</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nf">ProductMap</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">Map</span><span class="p">(</span><span class="n">p</span> <span class="p">=&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">Id</span><span class="p">).</span><span class="n">IsKey</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>You can configure Dapper.FluentMap.Dommel in the <code>FluentMapper.Initialize()</code> method:</p>
+
+<div class="highlight highlight-csharp"><pre><span class="n">FluentMapper</span><span class="p">.</span><span class="n">Intialize</span><span class="p">(</span><span class="n">config</span> <span class="p">=&gt;</span>
+                       <span class="p">{</span>
+                           <span class="n">config</span><span class="p">.</span><span class="n">AddMap</span><span class="p">(</span><span class="k">new</span> <span class="n">ProductMap</span><span class="p">());</span>
+                           <span class="n">config</span><span class="p">.</span><span class="n">ForDommel</span><span class="p">();</span>
+                       <span class="p">});</span>
+</pre></div>
       </section>
     </div>
 
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
-        <p class="copyright">Dapper.FluentMap maintained by <a href="https://github.com/HenkMollema">HenkMollema</a></p>
+        <p class="copyright">Dapper.FluentMap maintained by <a href="https://github.com/henkmollema">henkmollema</a></p>
         <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
