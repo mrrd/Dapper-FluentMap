@@ -42,7 +42,7 @@
 <h3>
 <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h3>
 
-<p>This <a href="https://github.com/SamSaffron/dapper-dot-net/">Dapper</a> extension allows you to fluently congfigure the mapping between POCO properties and database columns. This keeps your POCO's clean of mapping attributes. The functionality is similar to <a href="http://msdn.microsoft.com/nl-nl/data/jj591617.aspx">Entity Framework Fluent API</a>. If you have any questions, suggestions or bugs, please don't hesitate to <a href="mailto:henkmollema@gmail.com">contact me</a> or create an issue.</p>
+<p>This <a href="https://github.com/StackExchange/dapper-dot-net">Dapper</a> extension allows you to fluently congfigure the mapping between POCO properties and database columns. This keeps your POCO's clean of mapping attributes. The functionality is similar to <a href="http://msdn.microsoft.com/nl-nl/data/jj591617.aspx">Entity Framework Fluent API</a>. If you have any questions, suggestions or bugs, please don't hesitate to <a href="mailto:henkmollema@gmail.com">contact me</a> or create an issue.</p>
 
 <hr>
 
@@ -59,7 +59,7 @@
 <h4>
 <a id="manual-mapping" class="anchor" href="#manual-mapping" aria-hidden="true"><span class="octicon octicon-link"></span></a>Manual mapping</h4>
 
-<p>You can map property names manually using the <a href="https://github.com/HenkMollema/Dapper-FluentMap/blob/master/src/Dapper.FluentMap/Mapping/EntityMap.cs"><code>EntityMap&lt;TEntity&gt;</code></a> class. When creating a derived class, the constructor gives you access to the <code>Map</code> method, allowing you to specify to which database column name a certain property of <code>TEntity</code> should map to.</p>
+<p>You can map property names manually using the <a href="https://github.com/henkmollema/Dapper-FluentMap/blob/master/src/Dapper.FluentMap/Mapping/EntityMap.cs"><code>EntityMap&lt;TEntity&gt;</code></a> class. When creating a derived class, the constructor gives you access to the <code>Map</code> method, allowing you to specify to which database column name a certain property of <code>TEntity</code> should map to.</p>
 
 <div class="highlight highlight-csharp"><pre><span class="pl-s">public</span> <span class="pl-s">class</span> <span class="pl-en">ProductMap</span> : <span class="pl-st">EntityMap</span>&lt;<span class="pl-st">Product</span>&gt;
 {
@@ -89,7 +89,7 @@
 
 <p>When you have a lot of entity types, creating manual mapping classes can become plumbing. If your column names adhere to some kind of naming convention, you might be better off by configuring a mapping convention.</p>
 
-<p>You can create a convention by creating a class which derives from the <a href="https://github.com/HenkMollema/Dapper-FluentMap/blob/master/src/Dapper.FluentMap/Conventions/Convention.cs"><code>Convention</code></a> class. In the contructor you can configure the property conventions:</p>
+<p>You can create a convention by creating a class which derives from the <a href="https://github.com/henkmollema/Dapper-FluentMap/blob/master/src/Dapper.FluentMap/Conventions/Convention.cs"><code>Convention</code></a> class. In the contructor you can configure the property conventions:</p>
 
 <div class="highlight highlight-csharp"><pre><span class="pl-s">public</span> <span class="pl-s">class</span> <span class="pl-en">TypePrefixConvention</span> : <span class="pl-st">Convention</span>
 {
@@ -147,10 +147,10 @@
 <hr>
 
 <h3>
-<a id="dommel" class="anchor" href="#dommel" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/HenkMollema/Dommel">Dommel</a>
+<a id="dommel" class="anchor" href="#dommel" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/henkmollema/Dommel">Dommel</a>
 </h3>
 
-<p>Dommel contains a set of extensions methods providing easy CRUD operations using Dapper. One of the goals was to provide extension points for resolving table and column names. <a href="https://github.com/HenkMollema/Dapper-FluentMap/tree/master/src/Dapper.FluentMap.Dommel">Dapper.FluentMap.Dommel</a> implements certain interfaces of Dommel and uses the configured mapping. It also provides more mapping functionality.</p>
+<p>Dommel contains a set of extensions methods providing easy CRUD operations using Dapper. One of the goals was to provide extension points for resolving table and column names. <a href="https://github.com/henkmollema/Dapper-FluentMap/tree/master/src/Dapper.FluentMap.Dommel">Dapper.FluentMap.Dommel</a> implements certain interfaces of Dommel and uses the configured mapping. It also provides more mapping functionality.</p>
 
 <h4>
 <a id="pm-install-package-dapperfluentmapdommel" class="anchor" href="#pm-install-package-dapperfluentmapdommel" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://www.nuget.org/packages/Dapper.FluentMap.Dommel"><code>PM&gt; Install-Package Dapper.FluentMap.Dommel</code></a>
