@@ -4,6 +4,7 @@ using System.Reflection;
 using Dapper.FluentMap.Dommel.Mapping;
 using Dapper.FluentMap.Mapping;
 using Dommel;
+using System.Collections.Generic;
 
 namespace Dapper.FluentMap.Dommel.Resolvers
 {
@@ -12,7 +13,7 @@ namespace Dapper.FluentMap.Dommel.Resolvers
     /// </summary>
     public class DommelKeyPropertyResolver : DommelMapper.IKeyPropertyResolver
     {
-        public PropertyInfo ResolveKeyProperty(Type type)
+        public IEnumerable<PropertyInfo> ResolveKeyProperties(Type type)
         {
             IEntityMap entityMap;
             if (FluentMapper.EntityMaps.TryGetValue(type, out entityMap))
@@ -22,7 +23,11 @@ namespace Dapper.FluentMap.Dommel.Resolvers
                 {
                     var keyPropertyMaps = entityMap.PropertyMaps.OfType<DommelPropertyMap>().Where(e => e.Key).ToList();
 
-                    if (keyPropertyMaps.Count == 1)
+                    if (keyPropertyMaps.Count > 0) {
+                        return keyPropertyMaps.Select(x => x.PropertyInfo);
+                    }
+
+                    /*if (keyPropertyMaps.Count == 1)
                     {
                         return keyPropertyMaps[0].PropertyInfo;
                     }
@@ -35,11 +40,11 @@ namespace Dapper.FluentMap.Dommel.Resolvers
                             string.Join(Environment.NewLine, keyPropertyMaps.Select(t => t.PropertyInfo.Name)));
 
                         throw new Exception(msg);
-                    }
+                    }*/
                 }
             }
 
-            return DommelMapper.Resolvers.Default.KeyPropertyResolver.ResolveKeyProperty(type);
+            return DommelMapper.Resolvers.Default.KeyPropertyResolver.ResolveKeyProperties(type);
         }
     }
 }
